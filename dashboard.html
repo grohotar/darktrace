@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - Darktrace</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-page">
+    <div class="dashboard-container">
+        <!-- Навигационная панель -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2 class="logo-dashboard">DARKTRACE</h2>
+                <button class="mobile-menu-toggle" id="menuToggle">☰</button>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active" data-section="materials">
+                    <a href="#materials" class="nav-link">
+                        <span class="nav-icon">📁</span>
+                        <span class="nav-text">МАТЕРИАЛЫ ДЕЛА</span>
+                        <span class="notification-badge hidden" id="materialsNotif">●</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="knowledge">
+                    <a href="#knowledge" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-text">БАЗА ЗНАНИЙ</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="audio">
+                    <a href="#audio" class="nav-link">
+                        <span class="nav-icon">🎧</span>
+                        <span class="nav-text">АУДИО-АРХИВ</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="attestation">
+                    <a href="#attestation" class="nav-link">
+                        <span class="nav-icon">✓</span>
+                        <span class="nav-text">АТТЕСТАЦИЯ</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" id="logoutBtn">ВЫХОД</button>
+            </div>
+        </nav>
+        
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Раздел: Материалы дела -->
+            <section class="content-section active" id="materials">
+                <div class="section-header">
+                    <h2 class="section-title">МАТЕРИАЛЫ ДЕЛА</h2>
+                    <div class="filter-group">
+                        <label for="filterStage">Фильтр:</label>
+                        <select id="filterStage" class="filter-select">
+                            <option value="all">Все материалы</option>
+                            <option value="start">Старт</option>
+                            <option value="k1">Конверт №1</option>
+                            <option value="k2">Конверт №2</option>
+                            <option value="k3">Конверт №3</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="materials-grid" id="materialsGrid">
+                    <!-- Стартовый документ -->
+                    <div class="material-card" data-stage="start">
+                        <div class="card-header">
+                            <span class="badge badge-new">новое</span>
+                            <span class="card-stage">Старт</span>
+                        </div>
+                        <h3 class="card-title">Входящие: Дело № DT-2025-08-30-SB</h3>
+                        <p class="card-description">Первичные материалы по делу</p>
+                        <button class="btn btn-secondary btn-sm">Открыть</button>
+                    </div>
+                    
+                    <!-- Остальные документы появятся после прохождения тестов -->
+                </div>
+                
+                <div class="empty-state" id="emptyMaterials">
+                    <p class="empty-text">Дополнительные материалы появятся после прохождения аттестации</p>
+                </div>
+            </section>
+            
+            <!-- Раздел: База знаний -->
+            <section class="content-section" id="knowledge">
+                <div class="section-header">
+                    <h2 class="section-title">БАЗА ЗНАНИЙ</h2>
+                </div>
+                
+                <div class="knowledge-grid">
+                    <div class="knowledge-card">
+                        <h3 class="card-title">Протокол DT-7: Полевая дактилоскопия</h3>
+                        <p class="card-description">Методика снятия и анализа отпечатков пальцев</p>
+                        <button class="btn btn-secondary btn-sm">Открыть</button>
+                    </div>
+                    
+                    <div class="knowledge-card">
+                        <h3 class="card-title">Справка: препарат «Сертофин»</h3>
+                        <p class="card-description">Фармакологическая информация</p>
+                        <button class="btn btn-secondary btn-sm">Открыть</button>
+                    </div>
+                    
+                    <div class="knowledge-card">
+                        <h3 class="card-title">Досье: город Ривертон</h3>
+                        <p class="card-description">Географические и демографические данные</p>
+                        <button class="btn btn-secondary btn-sm">Открыть</button>
+                    </div>
+                    
+                    <div class="knowledge-card">
+                        <h3 class="card-title">Справка: галерея «Хранилище»</h3>
+                        <p class="card-description">История и описание объекта</p>
+                        <button class="btn btn-secondary btn-sm">Открыть</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Раздел: Аудио-архив -->
+            <section class="content-section" id="audio">
+                <div class="section-header">
+                    <h2 class="section-title">АУДИО-АРХИВ</h2>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="videos">Видеодопросы</button>
+                    <button class="tab-btn" data-tab="voices">Голосовые сообщения</button>
+                </div>
+                
+                <!-- Вкладка: Видеодопросы -->
+                <div class="tab-content active" id="videos">
+                    <div class="video-grid">
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <span class="play-icon">▶</span>
+                            </div>
+                            <h4 class="video-title">Допрос: Розалия Блэк</h4>
+                            <p class="video-duration">12:34</p>
+                        </div>
+                        
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <span class="play-icon">▶</span>
+                            </div>
+                            <h4 class="video-title">Допрос: Эван Харт</h4>
+                            <p class="video-duration">10:22</p>
+                        </div>
+                        
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <span class="play-icon">▶</span>
+                            </div>
+                            <h4 class="video-title">Допрос: Маркус Грей</h4>
+                            <p class="video-duration">15:18</p>
+                        </div>
+                        
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <span class="play-icon">▶</span>
+                            </div>
+                            <h4 class="video-title">Допрос: Селина Вейн</h4>
+                            <p class="video-duration">11:45</p>
+                        </div>
+                        
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <span class="play-icon">▶</span>
+                            </div>
+                            <h4 class="video-title">Допрос: Виктор Стоун</h4>
+                            <p class="video-duration">13:56</p>
+                        </div>
+                        
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <span class="play-icon">▶</span>
+                            </div>
+                            <h4 class="video-title">Допрос: Лилиан Роуз</h4>
+                            <p class="video-duration">09:30</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Вкладка: Голосовые сообщения -->
+                <div class="tab-content" id="voices">
+                    <div class="voice-access">
+                        <p class="voice-instruction">Введите код для доступа к голосовому сообщению</p>
+                        <div class="voice-input-group">
+                            <input 
+                                type="text" 
+                                id="voiceCode" 
+                                class="form-input" 
+                                placeholder="Введите код"
+                                maxlength="6"
+                            >
+                            <button class="btn btn-primary" id="unlockVoiceBtn">Прослушать</button>
+                        </div>
+                        
+                        <div class="error-message hidden" id="voiceError">
+                            <span class="error-icon">⚠</span>
+                            <span class="error-text">Неверный код</span>
+                        </div>
+                    </div>
+                    
+                    <div class="voice-list" id="voiceList">
+                        <h4 class="subsection-title">Доступные записи:</h4>
+                        <!-- Здесь будут появляться прослушанные сообщения -->
+                        <p class="empty-text">Пока нет разблокированных сообщений</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Раздел: Аттестация -->
+            <section class="content-section" id="attestation">
+                <div class="section-header">
+                    <h2 class="section-title">АТТЕСТАЦИЯ</h2>
+                </div>
+                
+                <div class="attestation-container">
+                    <!-- Тест №1 -->
+                    <div class="test-card" data-test="1">
+                        <div class="test-header">
+                            <h3 class="test-title">ТЕСТ №1</h3>
+                            <span class="test-status badge" id="test1Status">Доступен</span>
+                        </div>
+                        <p class="test-description">Проверка базовых знаний по делу</p>
+                        <button class="btn btn-primary" id="startTest1">Начать тест</button>
+                    </div>
+                    
+                    <!-- Тест №2 -->
+                    <div class="test-card locked" data-test="2">
+                        <div class="test-header">
+                            <h3 class="test-title">ТЕСТ №2</h3>
+                            <span class="test-status badge badge-locked" id="test2Status">Заблокирован</span>
+                        </div>
+                        <p class="test-description">Доступен после прохождения Теста №1</p>
+                        <button class="btn btn-secondary" disabled>Недоступен</button>
+                    </div>
+                    
+                    <!-- Тест №3 -->
+                    <div class="test-card locked" data-test="3">
+                        <div class="test-header">
+                            <h3 class="test-title">ТЕСТ №3</h3>
+                            <span class="test-status badge badge-locked" id="test3Status">Заблокирован</span>
+                        </div>
+                        <p class="test-description">Доступен после прохождения Теста №2</p>
+                        <button class="btn btn-secondary" disabled>Недоступен</button>
+                    </div>
+                    
+                    <!-- Санкция на осмотр (появляется после теста 2) -->
+                    <div class="location-selection hidden" id="locationSelection">
+                        <h3 class="subsection-title">САНКЦИЯ НА ОСМОТР ЛОКАЦИЙ</h3>
+                        <p class="instruction-text">Выберите ровно две локации для осмотра. Выбор необратим.</p>
+                        
+                        <div class="location-grid">
+                            <div class="location-card" data-location="rosalia">
+                                <h4>Дом Розалии Блэк</h4>
+                                <input type="checkbox" class="location-checkbox">
+                            </div>
+                            <div class="location-card" data-location="evan">
+                                <h4>Квартира Эвана Харта</h4>
+                                <input type="checkbox" class="location-checkbox">
+                            </div>
+                            <div class="location-card" data-location="marcus">
+                                <h4>Офис Маркуса Грея</h4>
+                                <input type="checkbox" class="location-checkbox">
+                            </div>
+                            <div class="location-card" data-location="selina">
+                                <h4>Студия Селины Вейн</h4>
+                                <input type="checkbox" class="location-checkbox">
+                            </div>
+                            <div class="location-card" data-location="victor">
+                                <h4>Гараж Виктора Стоуна</h4>
+                                <input type="checkbox" class="location-checkbox">
+                            </div>
+                            <div class="location-card" data-location="lilian">
+                                <h4>Галерея Лилиан Роуз</h4>
+                                <input type="checkbox" class="location-checkbox">
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" id="confirmLocations" disabled>Подтвердить выбор</button>
+                    </div>
+                    
+                    <!-- Финальный отчет (появляется после теста 3) -->
+                    <div class="final-report hidden" id="finalReport">
+                        <h3 class="subsection-title">ФИНАЛЬНЫЙ ОТЧЁТ</h3>
+                        <button class="btn btn-primary" id="submitReportBtn">Подать финальный отчёт</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Модальное окно для уведомлений -->
+    <div class="modal hidden" id="notificationModal">
+        <div class="modal-content">
+            <h3 class="modal-title" id="modalTitle">Уведомление</h3>
+            <p class="modal-text" id="modalText"></p>
+            <button class="btn btn-primary" id="modalCloseBtn">Закрыть</button>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
+

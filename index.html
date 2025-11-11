@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lux in Tenebris - Darktrace</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="landing-page">
+    <div class="video-container" id="videoContainer">
+        <!-- Видео фон -->
+        <video id="mainVideo" class="background-video" loop muted playsinline poster="assets/video-poster.jpg">
+            <source src="assets/intro-video.mp4" type="video/mp4">
+            <!-- Фолбэк если видео не загрузится -->
+        </video>
+        
+        <!-- Оверлей для затемнения -->
+        <div class="video-overlay"></div>
+        
+        <!-- Контент поверх видео -->
+        <div class="video-content" id="videoContent">
+            <div class="logo-container">
+                <h1 class="main-logo">DARKTRACE</h1>
+                <p class="tagline">Lux in Tenebris</p>
+            </div>
+            
+            <!-- Начальные кнопки -->
+            <div class="button-group" id="initialButtons">
+                <button class="btn btn-primary" id="acceptBtn">ДА, принимаю дело</button>
+                <button class="btn btn-secondary" id="rejectBtn">НЕТ</button>
+            </div>
+            
+            <!-- Сообщение при отказе -->
+            <div class="reject-message hidden" id="rejectMessage">
+                <p class="message-text">Ривертон останется без ответа</p>
+                <button class="btn btn-secondary" id="returnBtn">Вернуться</button>
+            </div>
+            
+            <!-- Кнопка входа (появляется после принятия) -->
+            <div class="login-redirect hidden" id="loginRedirect">
+                <button class="btn btn-primary" id="enterBtn">ВОЙТИ</button>
+            </div>
+        </div>
+        
+        <!-- Фолбэк если видео не загрузилось -->
+        <div class="video-fallback hidden" id="videoFallback">
+            <div class="fallback-content">
+                <h2>Входящий вызов</h2>
+                <p class="caller-name">Веспер Уэйнрайт</p>
+                <button class="btn btn-primary" id="startCallBtn">Начать звонок</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Индикатор звука -->
+    <div class="sound-indicator" id="soundIndicator">
+        <span class="sound-icon">🔇</span>
+        <span class="sound-text">Нажмите для включения звука</span>
+    </div>
+
+    <script src="landing.js"></script>
+</body>
+</html>
+

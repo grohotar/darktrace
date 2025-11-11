@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Навигация по сайту - Darktrace</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--color-border);
+        }
+        
+        .demo-title {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--color-accent-red);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .demo-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+        }
+        
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .page-card {
+            background-color: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            padding: var(--spacing-lg);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .page-card:hover {
+            border-color: var(--color-accent-red);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.3);
+        }
+        
+        .page-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-accent-red);
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 900;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .page-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-primary);
+        }
+        
+        .page-description {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.6;
+        }
+        
+        .page-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .page-features li {
+            padding: var(--spacing-xs) 0;
+            padding-left: var(--spacing-md);
+            position: relative;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+        
+        .page-features li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--color-accent-red);
+        }
+        
+        .info-section {
+            background-color: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .info-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-accent-red);
+        }
+        
+        .credentials {
+            background-color: var(--color-bg-tertiary);
+            padding: var(--spacing-md);
+            border-left: 3px solid var(--color-accent-red);
+            font-family: var(--font-mono);
+        }
+        
+        .codes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        .code-item {
+            background-color: var(--color-bg-tertiary);
+            padding: var(--spacing-sm);
+            border: 1px solid var(--color-border);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+        
+        .code-number {
+            color: var(--color-accent-red);
+            font-weight: 700;
+        }
+        
+        .footer-demo {
+            text-align: center;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1 class="demo-title">DARKTRACE</h1>
+            <p class="demo-subtitle">Навигация по веб-порталу игры</p>
+        </div>
+        
+        <!-- Информация о доступе -->
+        <div class="info-section">
+            <h2 class="info-title">🔑 Учетные данные</h2>
+            <div class="credentials">
+                <p><strong>Логин:</strong> agent</p>
+                <p><strong>Пароль:</strong> darktrace2025</p>
+            </div>
+        </div>
+        
+        <!-- Карточки страниц -->
+        <h2 style="font-size: 2rem; margin-bottom: var(--spacing-lg); color: var(--color-text-primary);">
+            Страницы портала
+        </h2>
+        
+        <div class="page-grid">
+            <!-- Экран 1: Лендинг -->
+            <a href="index.html" class="page-card">
+                <div class="page-number">1</div>
+                <h3 class="page-name">Лендинг</h3>
+                <p class="page-description">
+                    Первый экран после сканирования QR-кода. Погружение в атмосферу игры.
+                </p>
+                <ul class="page-features">
+                    <li>Полноэкранное видео звонка</li>
+                    <li>Кнопки "ДА" / "НЕТ"</li>
+                    <li>Автовключение звука</li>
+                    <li>Фолбэк при ошибке видео</li>
+                </ul>
+                <div class="btn btn-secondary btn-sm">Открыть →</div>
+            </a>
+            
+            <!-- Экран 2: Вход -->
+            <a href="login.html" class="page-card">
+                <div class="page-number">2</div>
+                <h3 class="page-name">Вход</h3>
+                <p class="page-description">
+                    Страница авторизации для доступа к материалам дела.
+                </p>
+                <ul class="page-features">
+                    <li>Форма входа</li>
+                    <li>Валидация данных</li>
+                    <li>Сообщения об ошибках</li>
+                    <li>Защита доступа</li>
+                </ul>
+                <div class="btn btn-secondary btn-sm">Открыть →</div>
+            </a>
+            
+            <!-- Экран 3: Личный кабинет -->
+            <a href="dashboard.html" class="page-card">
+                <div class="page-number">3</div>
+                <h3 class="page-name">Личный кабинет</h3>
+                <p class="page-description">
+                    Основной интерфейс с доступом ко всем материалам и функциям.
+                </p>
+                <ul class="page-features">
+                    <li>Материалы дела</li>
+                    <li>База знаний</li>
+                    <li>Аудио-архив</li>
+                    <li>Аттестация и тесты</li>
+                </ul>
+                <div class="btn btn-secondary btn-sm">Открыть →</div>
+            </a>
+            
+            <!-- Экран 4a: Эпилог победы -->
+            <a href="epilogue-victory.html" class="page-card">
+                <div class="page-number">4a</div>
+                <h3 class="page-name">Эпилог: Победа</h3>
+                <p class="page-description">
+                    Финальный экран при правильном решении дела.
+                </p>
+                <ul class="page-features">
+                    <li>Видео исповеди</li>
+                    <li>Финальный текст</li>
+                    <li>Штамп "Дело закрыто"</li>
+                    <li>Подпись агента</li>
+                </ul>
+                <div class="btn btn-secondary btn-sm">Открыть →</div>
+            </a>
+            
+            <!-- Экран 4b: Эпилог неудачи -->
+            <a href="epilogue-failure.html" class="page-card">
+                <div class="page-number">4b</div>
+                <h3 class="page-name">Эпилог: Неудача</h3>
+                <p class="page-description">
+                    Финальный экран при неверном решении дела.
+                </p>
+                <ul class="page-features">
+                    <li>Описание последствий</li>
+                    <li>Штамп "Отклонено"</li>
+                    <li>Список последствий</li>
+                    <li>Финальная записка</li>
+                </ul>
+                <div class="btn btn-secondary btn-sm">Открыть →</div>
+            </a>
+        </div>
+        
+        <!-- Коды для голосовых сообщений -->
+        <div class="info-section">
+            <h2 class="info-title">🎧 Коды для голосовых сообщений</h2>
+            <p style="margin-bottom: var(--spacing-md); color: var(--color-text-secondary);">
+                Используйте эти коды в разделе "Аудио-архив" → "Голосовые сообщения":
+            </p>
+            <div class="codes-grid">
+                <div class="code-item">
+                    <span class="code-number">123456</span> - Сообщение от Веспер #1
+                </div>
+                <div class="code-item">
+                    <span class="code-number">789012</span> - Сообщение от информатора
+                </div>
+                <div class="code-item">
+                    <span class="code-number">345678</span> - Запись с места преступления
+                </div>
+                <div class="code-item">
+                    <span class="code-number">901234</span> - Разговор свидетелей
+                </div>
+            </div>
+        </div>
+        
+        <!-- Быстрый доступ -->
+        <div class="info-section">
+            <h2 class="info-title">📚 Документация</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-sm);">
+                <a href="README.md" target="_blank" class="btn btn-secondary">Полная документация</a>
+                <a href="QUICKSTART.md" target="_blank" class="btn btn-secondary">Быстрый старт</a>
+                <a href="game_rules.txt" target="_blank" class="btn btn-secondary">Правила игры</a>
+                <a href="assets/README_ASSETS.md" target="_blank" class="btn btn-secondary">Медиа-файлы</a>
+            </div>
+        </div>
+        
+        <!-- Управление прогрессом -->
+        <div class="info-section">
+            <h2 class="info-title">⚙️ Управление</h2>
+            <p style="margin-bottom: var(--spacing-md); color: var(--color-text-secondary);">
+                Действия для управления состоянием игры:
+            </p>
+            <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap;">
+                <button class="btn btn-secondary" onclick="resetProgress()">Сбросить прогресс</button>
+                <button class="btn btn-secondary" onclick="viewProgress()">Посмотреть прогресс</button>
+                <button class="btn btn-secondary" onclick="logout()">Выйти из системы</button>
+            </div>
+        </div>
+        
+        <div class="footer-demo">
+            <p>Darktrace © 2025 | Детективная настольная игра</p>
+            <p style="margin-top: var(--spacing-sm); font-size: 0.875rem;">
+                Lux in Tenebris
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        function resetProgress() {
+            if (confirm('Вы уверены? Весь прогресс игры будет удален.')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                alert('Прогресс сброшен! Страница будет перезагружена.');
+                location.reload();
+            }
+        }
+        
+        function viewProgress() {
+            const gameState = localStorage.getItem('gameState');
+            if (gameState) {
+                console.log('Текущий прогресс игры:');
+                console.log(JSON.parse(gameState));
+                alert('Прогресс выведен в консоль браузера (F12)');
+            } else {
+                alert('Прогресс не найден. Начните игру!');
+            }
+        }
+        
+        function logout() {
+            if (confirm('Выйти из системы?')) {
+                sessionStorage.removeItem('authenticated');
+                alert('Вы вышли из системы');
+            }
+        }
+    </script>
+</body>
+</html>
+

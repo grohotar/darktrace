@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - Darktrace</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1 class="logo-small">DARKTRACE</h1>
+                <p class="subtitle">Система защищена. Требуется авторизация.</p>
+            </div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Логин</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-input" 
+                        required 
+                        autocomplete="off"
+                        placeholder="Введите логин"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input" 
+                        required
+                        placeholder="Введите пароль"
+                    >
+                </div>
+                
+                <div class="error-message hidden" id="errorMessage">
+                    <span class="error-icon">⚠</span>
+                    <span class="error-text">Неверные учетные данные</span>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">ВОЙТИ</button>
+            </form>
+            
+            <div class="login-footer">
+                <p class="footer-text">Доступ разрешен только уполномоченным сотрудникам</p>
+                <p class="case-number">Дело № DT-2025-08-30-SB</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>
+
