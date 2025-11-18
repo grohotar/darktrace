@@ -16,29 +16,28 @@
             </div>
             
             <ul class="nav-menu">
-                <li class="nav-item active" data-section="materials">
-                    <a href="#materials" class="nav-link">
+                <li class="nav-item active" data-section="dossiers">
+                    <a href="#dossiers" class="nav-link">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">ДОСЬЕ ФИГУРАНТОВ</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="evidence">
+                    <a href="#evidence" class="nav-link">
                         <span class="nav-icon">📁</span>
-                        <span class="nav-text">МАТЕРИАЛЫ ДЕЛА</span>
-                        <span class="notification-badge hidden" id="materialsNotif">●</span>
+                        <span class="nav-text">АРХИВ УЛИК</span>
                     </a>
                 </li>
-                <li class="nav-item" data-section="knowledge">
-                    <a href="#knowledge" class="nav-link">
+                <li class="nav-item" data-section="database">
+                    <a href="#database" class="nav-link">
                         <span class="nav-icon">📚</span>
-                        <span class="nav-text">БАЗА ЗНАНИЙ</span>
+                        <span class="nav-text">БАЗА ДАННЫХ</span>
                     </a>
                 </li>
-                <li class="nav-item" data-section="audio">
-                    <a href="#audio" class="nav-link">
-                        <span class="nav-icon">🎧</span>
-                        <span class="nav-text">АУДИО-АРХИВ</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-section="attestation">
-                    <a href="#attestation" class="nav-link">
+                <li class="nav-item" data-section="report">
+                    <a href="#report" class="nav-link">
                         <span class="nav-icon">✓</span>
-                        <span class="nav-text">АТТЕСТАЦИЯ</span>
+                        <span class="nav-text">ПОДАТЬ ФИНАЛЬНЫЙ ОТЧЕТ</span>
                     </a>
                 </li>
             </ul>
@@ -50,88 +49,102 @@
         
         <!-- Основной контент -->
         <main class="main-content">
-            <!-- Раздел: Материалы дела -->
-            <section class="content-section active" id="materials">
+            <!-- Раздел: Досье Фигурантов -->
+            <section class="content-section active" id="dossiers">
                 <div class="section-header">
-                    <h2 class="section-title">МАТЕРИАЛЫ ДЕЛА</h2>
-                    <div class="filter-group">
-                        <label for="filterStage">Фильтр:</label>
-                        <select id="filterStage" class="filter-select">
-                            <option value="all">Все материалы</option>
-                            <option value="start">Старт</option>
-                            <option value="k1">Конверт №1</option>
-                            <option value="k2">Конверт №2</option>
-                            <option value="k3">Конверт №3</option>
-                        </select>
-                    </div>
+                    <h2 class="section-title">ДОСЬЕ ФИГУРАНТОВ</h2>
                 </div>
                 
-                <div class="materials-grid" id="materialsGrid">
-                    <!-- Стартовый документ -->
-                    <div class="material-card" data-stage="start">
-                        <div class="card-header">
-                            <span class="badge badge-new">новое</span>
-                            <span class="card-stage">Старт</span>
+                <div class="dossiers-grid" id="dossiersGrid">
+                    <!-- Карточки персонажей -->
+                    <div class="dossier-card" data-character="rosalia">
+                        <div class="dossier-photo">
+                            <div class="photo-placeholder">R.B.</div>
                         </div>
-                        <h3 class="card-title">Входящие: Дело № DT-2025-08-30-SB</h3>
-                        <p class="card-description">Первичные материалы по делу</p>
-                        <button class="btn btn-secondary btn-sm">Открыть</button>
+                        <h3 class="dossier-name">Розалия Блэк</h3>
+                        <p class="dossier-role">Жертва</p>
+                        <button class="btn btn-secondary btn-sm view-dossier">Открыть досье</button>
                     </div>
                     
-                    <!-- Остальные документы появятся после прохождения тестов -->
-                </div>
-                
-                <div class="empty-state" id="emptyMaterials">
-                    <p class="empty-text">Дополнительные материалы появятся после прохождения аттестации</p>
+                    <div class="dossier-card" data-character="evan">
+                        <div class="dossier-photo">
+                            <div class="photo-placeholder">E.H.</div>
+                        </div>
+                        <h3 class="dossier-name">Эван Харт</h3>
+                        <p class="dossier-role">Бывший партнер</p>
+                        <button class="btn btn-secondary btn-sm view-dossier">Открыть досье</button>
+                    </div>
+                    
+                    <div class="dossier-card" data-character="marcus">
+                        <div class="dossier-photo">
+                            <div class="photo-placeholder">M.G.</div>
+                        </div>
+                        <h3 class="dossier-name">Маркус Грей</h3>
+                        <p class="dossier-role">Адвокат</p>
+                        <button class="btn btn-secondary btn-sm view-dossier">Открыть досье</button>
+                    </div>
+                    
+                    <div class="dossier-card" data-character="selina">
+                        <div class="dossier-photo">
+                            <div class="photo-placeholder">S.V.</div>
+                        </div>
+                        <h3 class="dossier-name">Селина Вейн</h3>
+                        <p class="dossier-role">Художница</p>
+                        <button class="btn btn-secondary btn-sm view-dossier">Открыть досье</button>
+                    </div>
+                    
+                    <div class="dossier-card" data-character="victor">
+                        <div class="dossier-photo">
+                            <div class="photo-placeholder">V.S.</div>
+                        </div>
+                        <h3 class="dossier-name">Виктор Стоун</h3>
+                        <p class="dossier-role">Механик</p>
+                        <button class="btn btn-secondary btn-sm view-dossier">Открыть досье</button>
+                    </div>
+                    
+                    <div class="dossier-card" data-character="lilian">
+                        <div class="dossier-photo">
+                            <div class="photo-placeholder">L.R.</div>
+                        </div>
+                        <h3 class="dossier-name">Лилиан Роуз</h3>
+                        <p class="dossier-role">Владелица галереи</p>
+                        <button class="btn btn-secondary btn-sm view-dossier">Открыть досье</button>
+                    </div>
+                    
+                    <div class="dossier-card" data-character="alaric">
+                        <div class="dossier-photo">
+                            <div class="photo-placeholder">A.U.</div>
+                        </div>
+                        <h3 class="dossier-name">Аларик Андервуд</h3>
+                        <p class="dossier-role">Коллекционер</p>
+                        <button class="btn btn-secondary btn-sm view-dossier">Открыть досье</button>
+                    </div>
+                    
+                    <div class="dossier-card" data-character="claire">
+                        <div class="dossier-photo">
+                            <div class="photo-placeholder">C.U.</div>
+                        </div>
+                        <h3 class="dossier-name">Клэр Андервуд</h3>
+                        <p class="dossier-role">Супруга коллекционера</p>
+                        <button class="btn btn-secondary btn-sm view-dossier">Открыть досье</button>
+                    </div>
                 </div>
             </section>
             
-            <!-- Раздел: База знаний -->
-            <section class="content-section" id="knowledge">
+            <!-- Раздел: Архив Улик -->
+            <section class="content-section" id="evidence">
                 <div class="section-header">
-                    <h2 class="section-title">БАЗА ЗНАНИЙ</h2>
-                </div>
-                
-                <div class="knowledge-grid">
-                    <div class="knowledge-card">
-                        <h3 class="card-title">Протокол DT-7: Полевая дактилоскопия</h3>
-                        <p class="card-description">Методика снятия и анализа отпечатков пальцев</p>
-                        <button class="btn btn-secondary btn-sm">Открыть</button>
-                    </div>
-                    
-                    <div class="knowledge-card">
-                        <h3 class="card-title">Справка: препарат «Сертофин»</h3>
-                        <p class="card-description">Фармакологическая информация</p>
-                        <button class="btn btn-secondary btn-sm">Открыть</button>
-                    </div>
-                    
-                    <div class="knowledge-card">
-                        <h3 class="card-title">Досье: город Ривертон</h3>
-                        <p class="card-description">Географические и демографические данные</p>
-                        <button class="btn btn-secondary btn-sm">Открыть</button>
-                    </div>
-                    
-                    <div class="knowledge-card">
-                        <h3 class="card-title">Справка: галерея «Хранилище»</h3>
-                        <p class="card-description">История и описание объекта</p>
-                        <button class="btn btn-secondary btn-sm">Открыть</button>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Раздел: Аудио-архив -->
-            <section class="content-section" id="audio">
-                <div class="section-header">
-                    <h2 class="section-title">АУДИО-АРХИВ</h2>
+                    <h2 class="section-title">АРХИВ УЛИК</h2>
                 </div>
                 
                 <div class="tabs">
-                    <button class="tab-btn active" data-tab="videos">Видеодопросы</button>
-                    <button class="tab-btn" data-tab="voices">Голосовые сообщения</button>
+                    <button class="tab-btn active" data-tab="videos">Видео-архив</button>
+                    <button class="tab-btn" data-tab="voices">Аудио-архив</button>
                 </div>
                 
-                <!-- Вкладка: Видеодопросы -->
+                <!-- Вкладка: Видео-архив -->
                 <div class="tab-content active" id="videos">
+                    <p class="tab-description">Доступ открыт. Галерея видеодопросов.</p>
                     <div class="video-grid">
                         <div class="video-card">
                             <div class="video-thumbnail">
@@ -139,6 +152,7 @@
                             </div>
                             <h4 class="video-title">Допрос: Розалия Блэк</h4>
                             <p class="video-duration">12:34</p>
+                            <button class="btn btn-secondary btn-sm show-transcript">Показать расшифровку</button>
                         </div>
                         
                         <div class="video-card">
@@ -147,6 +161,7 @@
                             </div>
                             <h4 class="video-title">Допрос: Эван Харт</h4>
                             <p class="video-duration">10:22</p>
+                            <button class="btn btn-secondary btn-sm show-transcript">Показать расшифровку</button>
                         </div>
                         
                         <div class="video-card">
@@ -155,6 +170,7 @@
                             </div>
                             <h4 class="video-title">Допрос: Маркус Грей</h4>
                             <p class="video-duration">15:18</p>
+                            <button class="btn btn-secondary btn-sm show-transcript">Показать расшифровку</button>
                         </div>
                         
                         <div class="video-card">
@@ -163,6 +179,7 @@
                             </div>
                             <h4 class="video-title">Допрос: Селина Вейн</h4>
                             <p class="video-duration">11:45</p>
+                            <button class="btn btn-secondary btn-sm show-transcript">Показать расшифровку</button>
                         </div>
                         
                         <div class="video-card">
@@ -171,6 +188,7 @@
                             </div>
                             <h4 class="video-title">Допрос: Виктор Стоун</h4>
                             <p class="video-duration">13:56</p>
+                            <button class="btn btn-secondary btn-sm show-transcript">Показать расшифровку</button>
                         </div>
                         
                         <div class="video-card">
@@ -179,14 +197,33 @@
                             </div>
                             <h4 class="video-title">Допрос: Лилиан Роуз</h4>
                             <p class="video-duration">09:30</p>
+                            <button class="btn btn-secondary btn-sm show-transcript">Показать расшифровку</button>
+                        </div>
+                        
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <span class="play-icon">▶</span>
+                            </div>
+                            <h4 class="video-title">Допрос: Аларик Андервуд</h4>
+                            <p class="video-duration">14:12</p>
+                            <button class="btn btn-secondary btn-sm show-transcript">Показать расшифровку</button>
+                        </div>
+                        
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <span class="play-icon">▶</span>
+                            </div>
+                            <h4 class="video-title">Допрос: Клэр Андервуд</h4>
+                            <p class="video-duration">08:45</p>
+                            <button class="btn btn-secondary btn-sm show-transcript">Показать расшифровку</button>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Вкладка: Голосовые сообщения -->
+                <!-- Вкладка: Аудио-архив -->
                 <div class="tab-content" id="voices">
                     <div class="voice-access">
-                        <p class="voice-instruction">Введите код для доступа к голосовому сообщению</p>
+                        <p class="voice-instruction">Доступ по кодам. Введите код для прослушивания аудиозаписи.</p>
                         <div class="voice-input-group">
                             <input 
                                 type="text" 
@@ -212,82 +249,301 @@
                 </div>
             </section>
             
-            <!-- Раздел: Аттестация -->
-            <section class="content-section" id="attestation">
+            <!-- Раздел: База Данных -->
+            <section class="content-section" id="database">
                 <div class="section-header">
-                    <h2 class="section-title">АТТЕСТАЦИЯ</h2>
+                    <h2 class="section-title">БАЗА ДАННЫХ</h2>
                 </div>
                 
-                <div class="attestation-container">
-                    <!-- Тест №1 -->
-                    <div class="test-card" data-test="1">
-                        <div class="test-header">
-                            <h3 class="test-title">ТЕСТ №1</h3>
-                            <span class="test-status badge" id="test1Status">Доступен</span>
-                        </div>
-                        <p class="test-description">Проверка базовых знаний по делу</p>
-                        <button class="btn btn-primary" id="startTest1">Начать тест</button>
-                    </div>
-                    
-                    <!-- Тест №2 -->
-                    <div class="test-card locked" data-test="2">
-                        <div class="test-header">
-                            <h3 class="test-title">ТЕСТ №2</h3>
-                            <span class="test-status badge badge-locked" id="test2Status">Заблокирован</span>
-                        </div>
-                        <p class="test-description">Доступен после прохождения Теста №1</p>
-                        <button class="btn btn-secondary" disabled>Недоступен</button>
-                    </div>
-                    
-                    <!-- Тест №3 -->
-                    <div class="test-card locked" data-test="3">
-                        <div class="test-header">
-                            <h3 class="test-title">ТЕСТ №3</h3>
-                            <span class="test-status badge badge-locked" id="test3Status">Заблокирован</span>
-                        </div>
-                        <p class="test-description">Доступен после прохождения Теста №2</p>
-                        <button class="btn btn-secondary" disabled>Недоступен</button>
-                    </div>
-                    
-                    <!-- Санкция на осмотр (появляется после теста 2) -->
-                    <div class="location-selection hidden" id="locationSelection">
-                        <h3 class="subsection-title">САНКЦИЯ НА ОСМОТР ЛОКАЦИЙ</h3>
-                        <p class="instruction-text">Выберите ровно две локации для осмотра. Выбор необратим.</p>
-                        
-                        <div class="location-grid">
-                            <div class="location-card" data-location="rosalia">
-                                <h4>Дом Розалии Блэк</h4>
-                                <input type="checkbox" class="location-checkbox">
-                            </div>
-                            <div class="location-card" data-location="evan">
-                                <h4>Квартира Эвана Харта</h4>
-                                <input type="checkbox" class="location-checkbox">
-                            </div>
-                            <div class="location-card" data-location="marcus">
-                                <h4>Офис Маркуса Грея</h4>
-                                <input type="checkbox" class="location-checkbox">
-                            </div>
-                            <div class="location-card" data-location="selina">
-                                <h4>Студия Селины Вейн</h4>
-                                <input type="checkbox" class="location-checkbox">
-                            </div>
-                            <div class="location-card" data-location="victor">
-                                <h4>Гараж Виктора Стоуна</h4>
-                                <input type="checkbox" class="location-checkbox">
-                            </div>
-                            <div class="location-card" data-location="lilian">
-                                <h4>Галерея Лилиан Роуз</h4>
-                                <input type="checkbox" class="location-checkbox">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="map">Интерактивная карта</button>
+                    <button class="tab-btn" data-tab="reference">Справочные материалы</button>
+                </div>
+                
+                <!-- Вкладка: Интерактивная карта -->
+                <div class="tab-content active" id="map">
+                    <div class="map-container">
+                        <div class="map-controls">
+                            <button class="btn btn-secondary btn-sm" id="calculateRouteBtn">Рассчитать время в пути</button>
+                            <div class="time-filter">
+                                <label for="timeFilter">Фильтр по времени:</label>
+                                <select id="timeFilter" class="filter-select">
+                                    <option value="">Выберите временной отрезок</option>
+                                    <option value="16-17">16:00-17:00</option>
+                                    <option value="17-18">17:00-18:00</option>
+                                    <option value="18-19">18:00-19:00</option>
+                                    <option value="19-20">19:00-20:00</option>
+                                    <option value="20-21">20:00-21:00</option>
+                                </select>
                             </div>
                         </div>
                         
-                        <button class="btn btn-primary" id="confirmLocations" disabled>Подтвердить выбор</button>
+                        <div class="map-view" id="mapView">
+                            <img src="assets/reverton-map.jpg" alt="Карта Ривертона" class="map-image" id="mapImage">
+                            
+                            <!-- 
+                                ИНСТРУКЦИЯ ПО РАССТАНОВКЕ МЕТОК:
+                                
+                                Для каждой метки измените значения left и top:
+                                - left: горизонтальная позиция (0% = левый край, 100% = правый край)
+                                - top: вертикальная позиция (0% = верх, 100% = низ)
+                                
+                                Пример: style="left: 45%; top: 30%;"
+                                
+                                Откройте сайт в браузере, смотрите на карту и подбирайте значения,
+                                пока метка не окажется в нужном месте.
+                            -->
+                            
+                            <!-- 1. СТУДИЯ СЕЛЕНЫ БЛЭК -->
+                            <div class="map-marker" data-location="selena-studio" style="left: 13%; top: 75%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Студия Селены Блэк</span>
+                            </div>
+                            
+                            <!-- 2. ДОМ АРТУРА ПЕЙНА -->
+                            <div class="map-marker" data-location="arthur-house" style="left: 7%; top: 75%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Дом Артура Пейна</span>
+                            </div>
+                            
+                            <!-- 3. КОФЕЙНЯ «МЕЧТАТЕЛИ» -->
+                            <div class="map-marker" data-location="dreamers-cafe" style="left: 19%; top: 50%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Кофейня «Мечтатели»</span>
+                            </div>
+                            
+                            <!-- 4. МАНСАРДА АЛАРИКА -->
+                            <div class="map-marker" data-location="alaric-attic" style="left: 23%; top: 11%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Мансарда Аларика</span>
+                            </div>
+                            
+                            <!-- 5. ФОТОСТУДИЯ ВЕСПЕР -->
+                            <div class="map-marker" data-location="vesper-studio" style="left: 31%; top: 14%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Фотостудия Веспер</span>
+                            </div>
+                            
+                            <!-- 6. АПТЕКА «ЗДОРОВЬЕ РИВЕРТОНА» -->
+                            <div class="map-marker" data-location="pharmacy" style="left: 23%; top: 24%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Аптека «Здоровье Ривертона»</span>
+                            </div>
+                            
+                            <!-- 7. КВАРТИРА СЕЛЕНЫ БЛЭК -->
+                            <div class="map-marker" data-location="selena-apartment" style="left: 5%; top: 55%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Квартира Селены Блэк</span>
+                            </div>
+                            
+                            <!-- 8. «РИВЕРТОН КОММЕРШЛ БАНК» -->
+                            <div class="map-marker" data-location="bank" style="left: 52%; top: 72%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Ривертон Коммершл Банк</span>
+                            </div>
+                            
+                            <!-- 9. ЗАПРАВКА "ГАЛФ" -->
+                            <div class="map-marker" data-location="gulf-station" style="left: 89%; top: 91%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Заправка "Галф"</span>
+                            </div>
+                            
+                            <!-- 10. РЕСТОРАН «ОНИКС» -->
+                            <div class="map-marker" data-location="onyx-restaurant" style="left: 63%; top: 13%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Ресторан «Оникс»</span>
+                            </div>
+                            
+                            <!-- 11. ОСОБНЯК АНДЕРВУДОВ -->
+                            <div class="map-marker" data-location="underwood-mansion" style="left: 40%; top: 91%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Особняк Андервудов</span>
+                            </div>
+                            
+                            <!-- 12. ГАЛЕРЕЯ «АРТ-МОДЕРН» -->
+                            <div class="map-marker" data-location="artmodern-gallery" style="left: 53%; top: 59%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Галерея «Арт-Модерн»</span>
+                            </div>
+                            
+                            <!-- 13. КВАРТИРА МАРКУСА -->
+                            <div class="map-marker" data-location="marcus-apartment" style="left: 62%; top: 27%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Квартира Маркуса</span>
+                            </div>
+                            
+                            <!-- 14. КАБИНЕТ ДОКТОРА МАЙКЛА ЭЛИОТА -->
+                            <div class="map-marker" data-location="doctor-office" style="left: 72%; top: 57%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Кабинет доктора Элиота</span>
+                            </div>
+                            
+                            <!-- 15. ГАЛЕРЕЯ «ХРАНИЛИЩЕ» -->
+                            <div class="map-marker" data-location="vault-gallery" style="left: 5%; top: 8%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Галерея «Хранилище»</span>
+                            </div>
+                            
+                            <!-- 16. ОФИС "DARK TRACE" -->
+                            <div class="map-marker" data-location="darktrace-office" style="left: 73%; top: 89%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Офис "Dark Trace"</span>
+                            </div>
+                            
+                            <!-- 17. ДЕПАРТАМЕНТ ПОЛИЦИИ РИВЕРТОНА -->
+                            <div class="map-marker" data-location="police-department" style="left: 62%; top: 58%;">
+                                <span class="marker-icon"></span>
+                                <span class="marker-label">Департамент полиции</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-calculator hidden" id="routeCalculator">
+                            <h4>Калькулятор маршрутов</h4>
+                            <div class="route-inputs">
+                                <div class="route-input-group">
+                                    <label>Точка А (старт):</label>
+                                    <select id="routeStart" class="filter-select">
+                                        <option value="">Выберите локацию</option>
+                                        <option value="selena-studio">Студия Селены Блэк</option>
+                                        <option value="arthur-house">Дом Артура Пейна</option>
+                                        <option value="dreamers-cafe">Кофейня «Мечтатели»</option>
+                                        <option value="alaric-attic">Мансарда Аларика</option>
+                                        <option value="vesper-studio">Фотостудия Веспер</option>
+                                        <option value="pharmacy">Аптека «Здоровье Ривертона»</option>
+                                        <option value="selena-apartment">Квартира Селены Блэк</option>
+                                        <option value="bank">Ривертон Коммершл Банк</option>
+                                        <option value="gulf-station">Заправка "Галф"</option>
+                                        <option value="onyx-restaurant">Ресторан «Оникс»</option>
+                                        <option value="underwood-mansion">Особняк Андервудов</option>
+                                        <option value="artmodern-gallery">Галерея «Арт-Модерн»</option>
+                                        <option value="marcus-apartment">Квартира Маркуса</option>
+                                        <option value="doctor-office">Кабинет доктора Элиота</option>
+                                        <option value="vault-gallery">Галерея «Хранилище»</option>
+                                        <option value="darktrace-office">Офис "Dark Trace"</option>
+                                        <option value="police-department">Департамент полиции</option>
+                                    </select>
+                                </div>
+                                <div class="route-input-group">
+                                    <label>Точка Б (финиш):</label>
+                                    <select id="routeEnd" class="filter-select">
+                                        <option value="">Выберите локацию</option>
+                                        <option value="selena-studio">Студия Селены Блэк</option>
+                                        <option value="arthur-house">Дом Артура Пейна</option>
+                                        <option value="dreamers-cafe">Кофейня «Мечтатели»</option>
+                                        <option value="alaric-attic">Мансарда Аларика</option>
+                                        <option value="vesper-studio">Фотостудия Веспер</option>
+                                        <option value="pharmacy">Аптека «Здоровье Ривертона»</option>
+                                        <option value="selena-apartment">Квартира Селены Блэк</option>
+                                        <option value="bank">Ривертон Коммершл Банк</option>
+                                        <option value="gulf-station">Заправка "Галф"</option>
+                                        <option value="onyx-restaurant">Ресторан «Оникс»</option>
+                                        <option value="underwood-mansion">Особняк Андервудов</option>
+                                        <option value="artmodern-gallery">Галерея «Арт-Модерн»</option>
+                                        <option value="marcus-apartment">Квартира Маркуса</option>
+                                        <option value="doctor-office">Кабинет доктора Элиота</option>
+                                        <option value="vault-gallery">Галерея «Хранилище»</option>
+                                        <option value="darktrace-office">Офис "Dark Trace"</option>
+                                        <option value="police-department">Департамент полиции</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" id="calculateBtn">Рассчитать</button>
+                            <div class="route-result hidden" id="routeResult">
+                                <p><strong>Время в пути:</strong></p>
+                                <p id="routeTime"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Вкладка: Справочные материалы -->
+                <div class="tab-content" id="reference">
+                    <div class="reference-grid">
+                        <div class="reference-card">
+                            <h3 class="card-title">О городе Ривертон</h3>
+                            <p class="card-description">История, география и демография города</p>
+                            <button class="btn btn-secondary btn-sm">Открыть</button>
+                        </div>
+                        <div class="reference-card">
+                            <h3 class="card-title">Протокол DT-7: Полевая дактилоскопия</h3>
+                            <p class="card-description">Методика снятия и анализа отпечатков пальцев</p>
+                            <button class="btn btn-secondary btn-sm">Открыть</button>
+                        </div>
+                        <div class="reference-card">
+                            <h3 class="card-title">Справка: препарат «Сертофин»</h3>
+                            <p class="card-description">Фармакологическая информация</p>
+                            <button class="btn btn-secondary btn-sm">Открыть</button>
+                        </div>
+                        <div class="reference-card">
+                            <h3 class="card-title">История галереи «Хранилище»</h3>
+                            <p class="card-description">Описание и история объекта</p>
+                            <button class="btn btn-secondary btn-sm">Открыть</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Раздел: Подать Финальный Отчет -->
+            <section class="content-section" id="report">
+                <div class="section-header">
+                    <h2 class="section-title">ПОДАТЬ ФИНАЛЬНЫЙ ОТЧЕТ</h2>
+                </div>
+                
+                <div class="report-container">
+                    <div class="report-intro">
+                        <p class="report-instruction">Интерактивная форма для завершения расследования. Заполните все три шага.</p>
                     </div>
                     
-                    <!-- Финальный отчет (появляется после теста 3) -->
-                    <div class="final-report hidden" id="finalReport">
-                        <h3 class="subsection-title">ФИНАЛЬНЫЙ ОТЧЁТ</h3>
-                        <button class="btn btn-primary" id="submitReportBtn">Подать финальный отчёт</button>
+                    <div class="report-form">
+                        <!-- Шаг 1: Обвиняемый -->
+                        <div class="report-step">
+                            <h3 class="step-title">Шаг 1: Обвиняемый</h3>
+                            <p class="step-description">Кто, по вашему мнению, виновен в убийстве Розалии Блэк?</p>
+                            <select id="suspectSelect" class="form-input">
+                                <option value="">Выберите обвиняемого</option>
+                                <option value="evan">Эван Харт</option>
+                                <option value="marcus">Маркус Грей</option>
+                                <option value="selina">Селина Вейн</option>
+                                <option value="victor">Виктор Стоун</option>
+                                <option value="lilian">Лилиан Роуз</option>
+                                <option value="alaric">Аларик Андервуд</option>
+                                <option value="claire">Клэр Андервуд</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Шаг 2: Мотив -->
+                        <div class="report-step">
+                            <h3 class="step-title">Шаг 2: Мотив</h3>
+                            <p class="step-description">Какой мотив был у преступника?</p>
+                            <select id="motiveSelect" class="form-input">
+                                <option value="">Выберите мотив</option>
+                                <option value="revenge">Месть</option>
+                                <option value="money">Финансовая выгода</option>
+                                <option value="jealousy">Ревность</option>
+                                <option value="secret">Сокрытие тайны</option>
+                                <option value="blackmail">Шантаж</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Шаг 3: Улика -->
+                        <div class="report-step">
+                            <h3 class="step-title">Шаг 3: Ключевая улика</h3>
+                            <p class="step-description">Какая улика является решающей?</p>
+                            <select id="evidenceSelect" class="form-input">
+                                <option value="">Выберите улику</option>
+                                <option value="fingerprints">Отпечатки пальцев</option>
+                                <option value="video">Видеозапись</option>
+                                <option value="audio">Аудиозапись</option>
+                                <option value="document">Документ</option>
+                                <option value="witness">Показания свидетеля</option>
+                                <option value="forensic">Судебно-медицинская экспертиза</option>
+                            </select>
+                        </div>
+                        
+                        <div class="report-actions">
+                            <button class="btn btn-primary" id="submitFinalReportBtn" disabled>Подать финальный отчет</button>
+                            <p class="warning-text">⚠ Это действие необратимо. Убедитесь в правильности ответов.</p>
+                        </div>
                     </div>
                 </div>
             </section>

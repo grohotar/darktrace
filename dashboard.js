@@ -16,14 +16,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Вкладки в аудио-архиве
     setupTabs();
     
-    // Материалы дела
-    setupMaterials();
+    // Досье фигурантов
+    setupDossiers();
     
     // Голосовые сообщения
     setupVoiceMessages();
     
-    // Аттестация
-    setupAttestation();
+    // Интерактивная карта
+    setupMap();
+    
+    // Финальный отчет
+    setupFinalReport();
     
     // Мобильное меню
     setupMobileMenu();
@@ -82,6 +85,12 @@ function setupNavigation() {
             // Добавляем активный класс
             this.classList.add('active');
             document.getElementById(targetSection).classList.add('active');
+            
+            // Закрываем мобильное меню
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('mobile-hidden');
+            }
         });
     });
 }
@@ -106,46 +115,43 @@ function setupTabs() {
     });
 }
 
-// Материалы дела
-function setupMaterials() {
-    const filterSelect = document.getElementById('filterStage');
-    const materialsGrid = document.getElementById('materialsGrid');
+// Досье фигурантов
+function setupDossiers() {
+    const dossierCards = document.querySelectorAll('.dossier-card');
     
-    if (filterSelect) {
-        filterSelect.addEventListener('change', function() {
-            const selectedStage = this.value;
-            const materials = materialsGrid.querySelectorAll('.material-card');
-            
-            materials.forEach(material => {
-                const materialStage = material.dataset.stage;
+    dossierCards.forEach(card => {
+        const viewBtn = card.querySelector('.view-dossier');
+        const character = card.dataset.character;
+        
+        if (viewBtn) {
+            viewBtn.addEventListener('click', function() {
+                const characterName = card.querySelector('.dossier-name').textContent;
                 
-                if (selectedStage === 'all' || selectedStage === materialStage) {
-                    material.style.display = 'block';
+                // Для Селены и Аларика показываем кнопку перехода к перехваченным данным
+                if (character === 'selina' || character === 'alaric') {
+                    showNotification(
+                        `Досье: ${characterName}`,
+                        'Досье открыто. Обнаружена кнопка [ПРОСМОТРЕТЬ КАНАЛ] для доступа к перехваченным данным.'
+                    );
                 } else {
-                    material.style.display = 'none';
+                    showNotification(
+                        `Досье: ${characterName}`,
+                        'Полное досье персонажа загружается...'
+                    );
                 }
-            });
-        });
-    }
-    
-    // Обработка открытия материалов
-    const materialCards = document.querySelectorAll('.material-card');
-    materialCards.forEach(card => {
-        const openBtn = card.querySelector('.btn');
-        if (openBtn) {
-            openBtn.addEventListener('click', function() {
-                // Убираем бейдж "новое"
-                const badge = card.querySelector('.badge-new');
-                if (badge) {
-                    badge.textContent = 'просмотрено';
-                    badge.classList.remove('badge-new');
-                    badge.style.backgroundColor = 'var(--color-bg-tertiary)';
-                }
-                
-                // Здесь можно открыть модальное окно с содержимым материала
-                showNotification('Материал открыт', 'Содержимое материала загружается...');
             });
         }
+    });
+    
+    // Обработка кнопок "Показать расшифровку" для видео
+    const transcriptBtns = document.querySelectorAll('.show-transcript');
+    transcriptBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const videoCard = this.closest('.video-card');
+            const videoTitle = videoCard.querySelector('.video-title').textContent;
+            showNotification('Расшифровка', `Расшифровка для "${videoTitle}" загружается...`);
+        });
     });
 }
 
@@ -241,95 +247,382 @@ function addVoiceToList(title, code) {
     voiceList.appendChild(voiceItem);
 }
 
-// Аттестация
-function setupAttestation() {
-    const gameState = initGameState();
+// Интерактивная карта
+function setupMap() {
+    const calculateRouteBtn = document.getElementById('calculateRouteBtn');
+    const routeCalculator = document.getElementById('routeCalculator');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const routeStart = document.getElementById('routeStart');
+    const routeEnd = document.getElementById('routeEnd');
+    const routeResult = document.getElementById('routeResult');
+    const routeTime = document.getElementById('routeTime');
+    const timeFilter = document.getElementById('timeFilter');
+    const mapMarkers = document.querySelectorAll('.map-marker');
     
-    // Тесты
-    const startTest1 = document.getElementById('startTest1');
-    if (startTest1) {
-        startTest1.addEventListener('click', function() {
-            // Здесь должна быть логика теста
-            // Для демонстрации просто помечаем тест как пройденный
-            showNotification('Тест №1', 'Запуск теста...');
-            
-            // Симуляция прохождения теста
-            setTimeout(() => {
-                completeTest(1);
-            }, 2000);
-        });
-    }
+    let selectedMarkers = [];
     
-    // Выбор локаций
-    const locationCards = document.querySelectorAll('.location-card');
-    const confirmLocationsBtn = document.getElementById('confirmLocations');
-    let selectedLocations = [];
-    
-    locationCards.forEach(card => {
-        const checkbox = card.querySelector('.location-checkbox');
+    // Данные о времени в пути между всеми локациями (зашиты в коде)
+    const routeTimes = {
+        // 1. Студия Селены Блэк - все маршруты
+        'selena-studio_arthur-house': { car: '2 мин', walk: '8 мин' },
+        'selena-studio_dreamers-cafe': { car: '7 мин', walk: '20 мин' },
+        'selena-studio_alaric-attic': { car: '10 мин', walk: '28 мин' },
+        'selena-studio_vesper-studio': { car: '12 мин', walk: '35 мин' },
+        'selena-studio_pharmacy': { car: '8 мин', walk: '22 мин' },
+        'selena-studio_selena-apartment': { car: '9 мин', walk: '25 мин' },
+        'selena-studio_bank': { car: '14 мин', walk: '40 мин' },
+        'selena-studio_gulf-station': { car: '22 мин', walk: '65 мин' },
+        'selena-studio_onyx-restaurant': { car: '16 мин', walk: '48 мин' },
+        'selena-studio_underwood-mansion': { car: '18 мин', walk: '52 мин' },
+        'selena-studio_artmodern-gallery': { car: '15 мин', walk: '45 мин' },
+        'selena-studio_marcus-apartment': { car: '17 мин', walk: '50 мин' },
+        'selena-studio_doctor-office': { car: '19 мин', walk: '55 мин' },
+        'selena-studio_vault-gallery': { car: '10 мин', walk: '30 мин' },
+        'selena-studio_darktrace-office': { car: '20 мин', walk: '58 мин' },
+        'selena-studio_police-department': { car: '18 мин', walk: '52 мин' },
         
-        card.addEventListener('click', function(e) {
-            if (e.target !== checkbox) {
-                checkbox.checked = !checkbox.checked;
-            }
-            
+        // 2. Дом Артура Пейна - все маршруты
+        'arthur-house_dreamers-cafe': { car: '8 мин', walk: '22 мин' },
+        'arthur-house_alaric-attic': { car: '11 мин', walk: '32 мин' },
+        'arthur-house_vesper-studio': { car: '13 мин', walk: '38 мин' },
+        'arthur-house_pharmacy': { car: '9 мин', walk: '25 мин' },
+        'arthur-house_selena-apartment': { car: '10 мин', walk: '28 мин' },
+        'arthur-house_bank': { car: '15 мин', walk: '43 мин' },
+        'arthur-house_gulf-station': { car: '23 мин', walk: '68 мин' },
+        'arthur-house_onyx-restaurant': { car: '17 мин', walk: '50 мин' },
+        'arthur-house_underwood-mansion': { car: '19 мин', walk: '55 мин' },
+        'arthur-house_artmodern-gallery': { car: '16 мин', walk: '47 мин' },
+        'arthur-house_marcus-apartment': { car: '18 мин', walk: '52 мин' },
+        'arthur-house_doctor-office': { car: '20 мин', walk: '58 мин' },
+        'arthur-house_vault-gallery': { car: '11 мин', walk: '32 мин' },
+        'arthur-house_darktrace-office': { car: '21 мин', walk: '60 мин' },
+        'arthur-house_police-department': { car: '19 мин', walk: '55 мин' },
+        
+        // 3. Кофейня Мечтатели - все маршруты
+        'dreamers-cafe_alaric-attic': { car: '5 мин', walk: '15 мин' },
+        'dreamers-cafe_vesper-studio': { car: '8 мин', walk: '22 мин' },
+        'dreamers-cafe_pharmacy': { car: '4 мин', walk: '12 мин' },
+        'dreamers-cafe_selena-apartment': { car: '6 мин', walk: '18 мин' },
+        'dreamers-cafe_bank': { car: '12 мин', walk: '35 мин' },
+        'dreamers-cafe_gulf-station': { car: '20 мин', walk: '58 мин' },
+        'dreamers-cafe_onyx-restaurant': { car: '13 мин', walk: '38 мин' },
+        'dreamers-cafe_underwood-mansion': { car: '16 мин', walk: '47 мин' },
+        'dreamers-cafe_artmodern-gallery': { car: '13 мин', walk: '38 мин' },
+        'dreamers-cafe_marcus-apartment': { car: '14 мин', walk: '40 мин' },
+        'dreamers-cafe_doctor-office': { car: '16 мин', walk: '47 мин' },
+        'dreamers-cafe_vault-gallery': { car: '7 мин', walk: '20 мин' },
+        'dreamers-cafe_darktrace-office': { car: '18 мин', walk: '52 мин' },
+        'dreamers-cafe_police-department': { car: '15 мин', walk: '45 мин' },
+        
+        // 4. Мансарда Аларика - все маршруты
+        'alaric-attic_vesper-studio': { car: '4 мин', walk: '12 мин' },
+        'alaric-attic_pharmacy': { car: '2 мин', walk: '6 мин' },
+        'alaric-attic_selena-apartment': { car: '8 мин', walk: '22 мин' },
+        'alaric-attic_bank': { car: '13 мин', walk: '38 мин' },
+        'alaric-attic_gulf-station': { car: '21 мин', walk: '60 мин' },
+        'alaric-attic_onyx-restaurant': { car: '10 мин', walk: '28 мин' },
+        'alaric-attic_underwood-mansion': { car: '17 мин', walk: '50 мин' },
+        'alaric-attic_artmodern-gallery': { car: '14 мин', walk: '40 мин' },
+        'alaric-attic_marcus-apartment': { car: '11 мин', walk: '32 мин' },
+        'alaric-attic_doctor-office': { car: '16 мин', walk: '47 мин' },
+        'alaric-attic_vault-gallery': { car: '9 мин', walk: '25 мин' },
+        'alaric-attic_darktrace-office': { car: '19 мин', walk: '55 мин' },
+        'alaric-attic_police-department': { car: '15 мин', walk: '45 мин' },
+        
+        // 5. Фотостудия Веспер - все маршруты
+        'vesper-studio_pharmacy': { car: '5 мин', walk: '15 мин' },
+        'vesper-studio_selena-apartment': { car: '11 мин', walk: '32 мин' },
+        'vesper-studio_bank': { car: '14 мин', walk: '40 мин' },
+        'vesper-studio_gulf-station': { car: '22 мин', walk: '65 мин' },
+        'vesper-studio_onyx-restaurant': { car: '8 мин', walk: '22 мин' },
+        'vesper-studio_underwood-mansion': { car: '18 мин', walk: '52 мин' },
+        'vesper-studio_artmodern-gallery': { car: '15 мин', walk: '45 мин' },
+        'vesper-studio_marcus-apartment': { car: '9 мин', walk: '25 мин' },
+        'vesper-studio_doctor-office': { car: '17 мин', walk: '50 мин' },
+        'vesper-studio_vault-gallery': { car: '12 мин', walk: '35 мин' },
+        'vesper-studio_darktrace-office': { car: '20 мин', walk: '58 мин' },
+        'vesper-studio_police-department': { car: '16 мин', walk: '47 мин' },
+        
+        // 6. Аптека - все маршруты
+        'pharmacy_selena-apartment': { car: '7 мин', walk: '20 мин' },
+        'pharmacy_bank': { car: '12 мин', walk: '35 мин' },
+        'pharmacy_gulf-station': { car: '20 мин', walk: '58 мин' },
+        'pharmacy_onyx-restaurant': { car: '11 мин', walk: '32 мин' },
+        'pharmacy_underwood-mansion': { car: '16 мин', walk: '47 мин' },
+        'pharmacy_artmodern-gallery': { car: '13 мин', walk: '38 мин' },
+        'pharmacy_marcus-apartment': { car: '12 мин', walk: '35 мин' },
+        'pharmacy_doctor-office': { car: '15 мин', walk: '45 мин' },
+        'pharmacy_vault-gallery': { car: '8 мин', walk: '22 мин' },
+        'pharmacy_darktrace-office': { car: '18 мин', walk: '52 мин' },
+        'pharmacy_police-department': { car: '14 мин', walk: '40 мин' },
+        
+        // 7. Квартира Селены Блэк - все маршруты
+        'selena-apartment_bank': { car: '13 мин', walk: '38 мин' },
+        'selena-apartment_gulf-station': { car: '21 мин', walk: '60 мин' },
+        'selena-apartment_onyx-restaurant': { car: '15 мин', walk: '45 мин' },
+        'selena-apartment_underwood-mansion': { car: '17 мин', walk: '50 мин' },
+        'selena-apartment_artmodern-gallery': { car: '14 мин', walk: '40 мин' },
+        'selena-apartment_marcus-apartment': { car: '16 мин', walk: '47 мин' },
+        'selena-apartment_doctor-office': { car: '18 мин', walk: '52 мин' },
+        'selena-apartment_vault-gallery': { car: '4 мин', walk: '12 мин' },
+        'selena-apartment_darktrace-office': { car: '19 мин', walk: '55 мин' },
+        'selena-apartment_police-department': { car: '17 мин', walk: '50 мин' },
+        
+        // 8. Банк - все маршруты
+        'bank_gulf-station': { car: '12 мин', walk: '35 мин' },
+        'bank_onyx-restaurant': { car: '14 мин', walk: '40 мин' },
+        'bank_underwood-mansion': { car: '10 мин', walk: '28 мин' },
+        'bank_artmodern-gallery': { car: '5 мин', walk: '15 мин' },
+        'bank_marcus-apartment': { car: '13 мин', walk: '38 мин' },
+        'bank_doctor-office': { car: '8 мин', walk: '22 мин' },
+        'bank_vault-gallery': { car: '16 мин', walk: '47 мин' },
+        'bank_darktrace-office': { car: '14 мин', walk: '40 мин' },
+        'bank_police-department': { car: '7 мин', walk: '20 мин' },
+        
+        // 9. Заправка Галф - все маршруты
+        'gulf-station_onyx-restaurant': { car: '18 мин', walk: '52 мин' },
+        'gulf-station_underwood-mansion': { car: '8 мин', walk: '22 мин' },
+        'gulf-station_artmodern-gallery': { car: '14 мин', walk: '40 мин' },
+        'gulf-station_marcus-apartment': { car: '19 мин', walk: '55 мин' },
+        'gulf-station_doctor-office': { car: '16 мин', walk: '47 мин' },
+        'gulf-station_vault-gallery': { car: '24 мин', walk: '70 мин' },
+        'gulf-station_darktrace-office': { car: '9 мин', walk: '25 мин' },
+        'gulf-station_police-department': { car: '15 мин', walk: '45 мин' },
+        
+        // 10. Ресторан Оникс - все маршруты
+        'onyx-restaurant_underwood-mansion': { car: '16 мин', walk: '47 мин' },
+        'onyx-restaurant_artmodern-gallery': { car: '12 мин', walk: '35 мин' },
+        'onyx-restaurant_marcus-apartment': { car: '4 мин', walk: '12 мин' },
+        'onyx-restaurant_doctor-office': { car: '10 мин', walk: '28 мин' },
+        'onyx-restaurant_vault-gallery': { car: '18 мин', walk: '52 мин' },
+        'onyx-restaurant_darktrace-office': { car: '19 мин', walk: '55 мин' },
+        'onyx-restaurant_police-department': { car: '11 мин', walk: '32 мин' },
+        
+        // 11. Особняк Андервудов - все маршруты
+        'underwood-mansion_artmodern-gallery': { car: '13 мин', walk: '38 мин' },
+        'underwood-mansion_marcus-apartment': { car: '17 мин', walk: '50 мин' },
+        'underwood-mansion_doctor-office': { car: '15 мин', walk: '45 мин' },
+        'underwood-mansion_vault-gallery': { car: '20 мин', walk: '58 мин' },
+        'underwood-mansion_darktrace-office': { car: '11 мин', walk: '32 мин' },
+        'underwood-mansion_police-department': { car: '14 мин', walk: '40 мин' },
+        
+        // 12. Галерея Арт-Модерн - все маршруты
+        'artmodern-gallery_marcus-apartment': { car: '11 мин', walk: '32 мин' },
+        'artmodern-gallery_doctor-office': { car: '6 мин', walk: '18 мин' },
+        'artmodern-gallery_vault-gallery': { car: '17 мин', walk: '50 мин' },
+        'artmodern-gallery_darktrace-office': { car: '16 мин', walk: '47 мин' },
+        'artmodern-gallery_police-department': { car: '4 мин', walk: '12 мин' },
+        
+        // 13. Квартира Маркуса - все маршруты
+        'marcus-apartment_doctor-office': { car: '8 мин', walk: '22 мин' },
+        'marcus-apartment_vault-gallery': { car: '19 мин', walk: '55 мин' },
+        'marcus-apartment_darktrace-office': { car: '20 мин', walk: '58 мин' },
+        'marcus-apartment_police-department': { car: '10 мин', walk: '28 мин' },
+        
+        // 14. Кабинет доктора - все маршруты
+        'doctor-office_vault-gallery': { car: '21 мин', walk: '60 мин' },
+        'doctor-office_darktrace-office': { car: '14 мин', walk: '40 мин' },
+        'doctor-office_police-department': { car: '3 мин', walk: '8 мин' },
+        
+        // 15. Галерея Хранилище - все маршруты
+        'vault-gallery_darktrace-office': { car: '23 мин', walk: '68 мин' },
+        'vault-gallery_police-department': { car: '20 мин', walk: '58 мин' },
+        
+        // 16. Офис Dark Trace - все маршруты
+        'darktrace-office_police-department': { car: '16 мин', walk: '47 мин' }
+    };
+    
+    // Названия локаций для отображения
+    const locationNames = {
+        'selena-studio': 'Студия Селены Блэк',
+        'arthur-house': 'Дом Артура Пейна',
+        'dreamers-cafe': 'Кофейня «Мечтатели»',
+        'alaric-attic': 'Мансарда Аларика',
+        'vesper-studio': 'Фотостудия Веспер',
+        'pharmacy': 'Аптека «Здоровье Ривертона»',
+        'selena-apartment': 'Квартира Селены Блэк',
+        'bank': 'Ривертон Коммершл Банк',
+        'gulf-station': 'Заправка "Галф"',
+        'onyx-restaurant': 'Ресторан «Оникс»',
+        'underwood-mansion': 'Особняк Андервудов',
+        'artmodern-gallery': 'Галерея «Арт-Модерн»',
+        'marcus-apartment': 'Квартира Маркуса',
+        'doctor-office': 'Кабинет доктора Майкла Элиота',
+        'vault-gallery': 'Галерея «Хранилище»',
+        'darktrace-office': 'Офис "Dark Trace"',
+        'police-department': 'Департамент полиции Ривертона'
+    };
+    
+    // Клик по маркеру на карте
+    mapMarkers.forEach(marker => {
+        marker.addEventListener('click', function() {
             const location = this.dataset.location;
             
-            if (checkbox.checked) {
-                if (selectedLocations.length < 2) {
-                    selectedLocations.push(location);
-                    this.style.borderColor = 'var(--color-accent-red)';
-                } else {
-                    checkbox.checked = false;
-                    showNotification('Ограничение', 'Можно выбрать только две локации');
-                }
-            } else {
-                selectedLocations = selectedLocations.filter(l => l !== location);
-                this.style.borderColor = 'var(--color-border)';
+            // Если уже выбрано 2 маркера, сбрасываем выбор
+            if (selectedMarkers.length === 2 && !this.classList.contains('selected')) {
+                mapMarkers.forEach(m => m.classList.remove('selected'));
+                selectedMarkers = [];
             }
             
-            // Активируем кнопку подтверждения если выбрано 2 локации
-            if (selectedLocations.length === 2) {
-                confirmLocationsBtn.disabled = false;
+            // Переключаем выбор маркера
+            if (this.classList.contains('selected')) {
+                this.classList.remove('selected');
+                selectedMarkers = selectedMarkers.filter(loc => loc !== location);
             } else {
-                confirmLocationsBtn.disabled = true;
+                if (selectedMarkers.length < 2) {
+                    this.classList.add('selected');
+                    selectedMarkers.push(location);
+                }
+            }
+            
+            // Если выбрано 2 маркера, показываем расстояние
+            if (selectedMarkers.length === 2) {
+                calculateRouteFromMarkers(selectedMarkers[0], selectedMarkers[1]);
+            } else {
+                routeResult.classList.add('hidden');
             }
         });
     });
     
-    if (confirmLocationsBtn) {
-        confirmLocationsBtn.addEventListener('click', function() {
-            gameState.locationsSelected = selectedLocations;
-            saveGameState(gameState);
+    // Функция расчета маршрута по выбранным маркерам
+    function calculateRouteFromMarkers(loc1, loc2) {
+        const key1 = `${loc1}_${loc2}`;
+        const key2 = `${loc2}_${loc1}`;
+        
+        const time = routeTimes[key1] || routeTimes[key2];
+        
+        if (time) {
+            const name1 = locationNames[loc1];
+            const name2 = locationNames[loc2];
             
-            showNotification('Выбор подтвержден', 
-                `Санкция выдана на осмотр: ${selectedLocations.length} локаций`);
+            routeTime.innerHTML = `
+                <strong>${name1}</strong> → <strong>${name2}</strong><br>
+                На машине: ~${time.car}<br>
+                Пешком: ~${time.walk}
+            `;
+            routeResult.classList.remove('hidden');
             
-            // Блокируем невыбранные локации
-            locationCards.forEach(card => {
-                const location = card.dataset.location;
-                if (!selectedLocations.includes(location)) {
-                    card.style.opacity = '0.3';
-                    card.style.pointerEvents = 'none';
-                }
-            });
+            // Обновляем выпадающие списки
+            if (routeStart && routeEnd) {
+                routeStart.value = loc1;
+                routeEnd.value = loc2;
+            }
             
-            this.disabled = true;
-            this.textContent = 'Выбор сохранен';
+            // Показываем калькулятор если он скрыт
+            if (routeCalculator.classList.contains('hidden')) {
+                routeCalculator.classList.remove('hidden');
+            }
+        }
+    }
+    
+    if (calculateRouteBtn) {
+        calculateRouteBtn.addEventListener('click', function() {
+            routeCalculator.classList.toggle('hidden');
         });
     }
     
-    // Финальный отчет
-    const submitReportBtn = document.getElementById('submitReportBtn');
-    if (submitReportBtn) {
-        submitReportBtn.addEventListener('click', function() {
-            // Здесь должна быть форма финального отчета
-            // Для демонстрации переходим на страницу эпилога
+    if (calculateBtn) {
+        calculateBtn.addEventListener('click', function() {
+            const start = routeStart.value;
+            const end = routeEnd.value;
+            
+            if (!start || !end) {
+                showNotification('Ошибка', 'Выберите обе локации');
+                return;
+            }
+            
+            if (start === end) {
+                showNotification('Ошибка', 'Выберите разные локации');
+                return;
+            }
+            
+            // Создаем ключ для поиска (в обе стороны)
+            const key1 = `${start}_${end}`;
+            const key2 = `${end}_${start}`;
+            
+            const time = routeTimes[key1] || routeTimes[key2];
+            
+            if (time) {
+                const name1 = locationNames[start];
+                const name2 = locationNames[end];
+                
+                routeTime.innerHTML = `
+                    <strong>${name1}</strong> → <strong>${name2}</strong><br>
+                    На машине: ~${time.car}<br>
+                    Пешком: ~${time.walk}
+                `;
+                routeResult.classList.remove('hidden');
+                
+                // Подсвечиваем маркеры на карте
+                mapMarkers.forEach(m => m.classList.remove('selected'));
+                selectedMarkers = [start, end];
+                mapMarkers.forEach(marker => {
+                    if (marker.dataset.location === start || marker.dataset.location === end) {
+                        marker.classList.add('selected');
+                    }
+                });
+            } else {
+                showNotification('Ошибка', 'Маршрут не найден');
+            }
+        });
+    }
+    
+    if (timeFilter) {
+        timeFilter.addEventListener('change', function() {
+            const timeSlot = this.value;
+            
+            if (timeSlot) {
+                showNotification(
+                    'Фильтр по времени',
+                    `Отображение местоположения персонажей в период ${timeSlot.replace('-', ':00-')}:00`
+                );
+            }
+        });
+    }
+}
+
+// Финальный отчет
+function setupFinalReport() {
+    const suspectSelect = document.getElementById('suspectSelect');
+    const motiveSelect = document.getElementById('motiveSelect');
+    const evidenceSelect = document.getElementById('evidenceSelect');
+    const submitBtn = document.getElementById('submitFinalReportBtn');
+    
+    // Проверка заполнения всех полей
+    function checkFormComplete() {
+        if (suspectSelect && motiveSelect && evidenceSelect && submitBtn) {
+            if (suspectSelect.value && motiveSelect.value && evidenceSelect.value) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+    }
+    
+    if (suspectSelect) {
+        suspectSelect.addEventListener('change', checkFormComplete);
+    }
+    
+    if (motiveSelect) {
+        motiveSelect.addEventListener('change', checkFormComplete);
+    }
+    
+    if (evidenceSelect) {
+        evidenceSelect.addEventListener('change', checkFormComplete);
+    }
+    
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function() {
             const confirmed = confirm('Вы уверены? Это действие необратимо.');
             
             if (confirmed) {
-                // В реальном проекте здесь проверка ответов
-                const isCorrect = Math.random() > 0.5; // Случайный результат для демо
+                const suspect = suspectSelect.value;
+                const motive = motiveSelect.value;
+                const evidence = evidenceSelect.value;
+                
+                // В реальном проекте здесь проверка правильности ответов
+                // Для демонстрации используем случайный результат
+                const isCorrect = Math.random() > 0.5;
                 
                 if (isCorrect) {
                     window.location.href = 'epilogue-victory.html';
@@ -341,71 +634,7 @@ function setupAttestation() {
     }
 }
 
-function completeTest(testNumber) {
-    const gameState = initGameState();
-    
-    gameState.testsCompleted[`test${testNumber}`] = true;
-    
-    // Разблокируем материалы
-    if (testNumber === 1) {
-        gameState.materialsUnlocked.k1 = true;
-        showNotification('Тест №1 пройден!', 'Материалы Конверта №1 разблокированы');
-        addMaterialsNotification();
-        unlockTest(2);
-    } else if (testNumber === 2) {
-        gameState.materialsUnlocked.k2 = true;
-        showNotification('Тест №2 пройден!', 'Материалы Конверта №2 разблокированы');
-        showLocationSelection();
-        addMaterialsNotification();
-        unlockTest(3);
-    } else if (testNumber === 3) {
-        gameState.materialsUnlocked.k3 = true;
-        showNotification('Тест №3 пройден!', 'Материалы Конверта №3 разблокированы');
-        showFinalReport();
-        addMaterialsNotification();
-    }
-    
-    saveGameState(gameState);
-}
 
-function unlockTest(testNumber) {
-    const testCard = document.querySelector(`[data-test="${testNumber}"]`);
-    if (testCard) {
-        testCard.classList.remove('locked');
-        const button = testCard.querySelector('button');
-        button.disabled = false;
-        button.classList.remove('btn-secondary');
-        button.classList.add('btn-primary');
-        button.textContent = 'Начать тест';
-        
-        const status = document.getElementById(`test${testNumber}Status`);
-        if (status) {
-            status.textContent = 'Доступен';
-            status.classList.remove('badge-locked');
-        }
-    }
-}
-
-function showLocationSelection() {
-    const locationSelection = document.getElementById('locationSelection');
-    if (locationSelection) {
-        locationSelection.classList.remove('hidden');
-    }
-}
-
-function showFinalReport() {
-    const finalReport = document.getElementById('finalReport');
-    if (finalReport) {
-        finalReport.classList.remove('hidden');
-    }
-}
-
-function addMaterialsNotification() {
-    const materialsNotif = document.getElementById('materialsNotif');
-    if (materialsNotif) {
-        materialsNotif.classList.remove('hidden');
-    }
-}
 
 // Мобильное меню
 function setupMobileMenu() {
