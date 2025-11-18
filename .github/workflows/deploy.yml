@@ -1,0 +1,24 @@
+name: Deploy to NetAngels
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Deploy to server via SCP
+      uses: appleboy/scp-action@master
+      with:
+        host: h35.netangels.ru
+        username: c61358
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: "index.html,login.html,dashboard.html,landing.js,login.js,dashboard.js,styles.css,assets/*,epilogue-victory.html,epilogue-failure.html"
+        target: darktrace.agency/www/
+        strip_components: 0
