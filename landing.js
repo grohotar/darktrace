@@ -17,21 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let soundEnabled = false;
     
-    // Попытка автоплея видео
-    const playVideo = async () => {
-        try {
-            await video.play();
-            videoFallback.classList.add('hidden');
-        } catch (error) {
-            console.log('Автоплей не удался, показываем фолбэк');
-            videoFallback.classList.remove('hidden');
-        }
-    };
+    // Показываем экран звонка при загрузке
+    videoFallback.classList.remove('hidden');
+    initialButtons.classList.add('hidden');
     
-    // Запускаем видео при загрузке
-    playVideo();
-    
-    // Включение звука при первом клике
+    // Включение звука
     const enableSound = () => {
         if (!soundEnabled) {
             video.muted = false;
@@ -43,22 +33,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Слушатель для включения звука
-    videoContainer.addEventListener('click', enableSound, { once: true });
-    
-    // Кнопка "Начать звонок" (фолбэк)
+    // Кнопка "Начать звонок" - запускает видео и показывает кнопки
     if (startCallBtn) {
         startCallBtn.addEventListener('click', async () => {
             videoFallback.classList.add('hidden');
-            await video.play();
-            enableSound();
+            initialButtons.classList.remove('hidden');
+            
+            try {
+                await video.play();
+                enableSound();
+            } catch (error) {
+                console.log('Не удалось запустить видео с автоплеем');
+                // Видео запустится без звука, пользователь может включить звук кликом
+            }
         });
     }
     
-    // Кнопка "ДА, принимаю дело"
+    // Слушатель для включения звука при клике на видео
+    videoContainer.addEventListener('click', enableSound, { once: true });
+    
+    // Кнопка "ДА, принимаю дело" - сразу переход на логин
     acceptBtn.addEventListener('click', () => {
-        initialButtons.classList.add('hidden');
-        loginRedirect.classList.remove('hidden');
+        window.location.href = 'login.html';
     });
     
     // Кнопка "НЕТ"
@@ -71,11 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
     returnBtn.addEventListener('click', () => {
         rejectMessage.classList.add('hidden');
         initialButtons.classList.remove('hidden');
-    });
-    
-    // Кнопка "ВОЙТИ"
-    enterBtn.addEventListener('click', () => {
-        window.location.href = 'login.html';
     });
     
     // Обработка ошибок загрузки видео

@@ -507,18 +507,7 @@ function setupMap() {
                 routeStart.value = loc1;
                 routeEnd.value = loc2;
             }
-            
-            // Показываем калькулятор если он скрыт
-            if (routeCalculator.classList.contains('hidden')) {
-                routeCalculator.classList.remove('hidden');
-            }
         }
-    }
-    
-    if (calculateRouteBtn) {
-        calculateRouteBtn.addEventListener('click', function() {
-            routeCalculator.classList.toggle('hidden');
-        });
     }
     
     if (calculateBtn) {
