@@ -71,6 +71,7 @@ function saveGameState(state) {
 function setupNavigation() {
     const navItems = document.querySelectorAll('.nav-item');
     const sections = document.querySelectorAll('.content-section');
+    const sidebar = document.getElementById('sidebar');
     
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
@@ -87,9 +88,12 @@ function setupNavigation() {
             document.getElementById(targetSection).classList.add('active');
             
             // Закрываем мобильное меню
-            const sidebar = document.getElementById('sidebar');
-            if (window.innerWidth <= 768) {
-                sidebar.classList.add('mobile-hidden');
+            if (window.innerWidth <= 768 && sidebar) {
+                sidebar.classList.remove('mobile-visible');
+                const overlay = document.getElementById('mobileOverlay');
+                if (overlay) {
+                    overlay.classList.remove('active');
+                }
             }
         });
     });
@@ -629,11 +633,23 @@ function setupFinalReport() {
 function setupMobileMenu() {
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('mobileOverlay');
     
     if (menuToggle) {
         menuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('mobile-hidden');
+            sidebar.classList.toggle('mobile-visible');
+            if (overlay) {
+                overlay.classList.toggle('active');
+            }
         });
+        
+        // Закрытие меню при клике на оверлей
+        if (overlay) {
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('mobile-visible');
+                overlay.classList.remove('active');
+            });
+        }
     }
 }
 

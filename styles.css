@@ -813,6 +813,12 @@ body {
     padding: var(--spacing-lg);
 }
 
+@media (max-width: 768px) {
+    .map-container {
+        padding: var(--spacing-sm);
+    }
+}
+
 .map-controls {
     display: flex;
     gap: var(--spacing-md);
@@ -823,8 +829,8 @@ body {
 
 .time-filter {
     display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
+    flex-direction: column;
+    gap: var(--spacing-xs);
 }
 
 .time-filter label {
@@ -840,6 +846,15 @@ body {
     margin-bottom: var(--spacing-lg);
     position: relative;
     overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .map-view {
+        min-height: auto;
+        background: none;
+        border: none;
+        margin-bottom: var(--spacing-md);
+    }
 }
 
 .map-image {
@@ -1107,6 +1122,27 @@ body {
     cursor: pointer;
 }
 
+/* Мобильный хедер */
+.mobile-header {
+    display: none;
+}
+
+/* Оверлей для мобильного меню */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 99;
+}
+
+.mobile-overlay.active {
+    display: block;
+}
+
 /* Модальное окно */
 .modal {
     position: fixed;
@@ -1339,22 +1375,61 @@ body {
         width: 100%;
     }
     
+    /* Мобильный хедер */
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--color-bg-secondary);
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--spacing-md);
+        z-index: 50;
+    }
+    
+    .mobile-header .mobile-menu-toggle {
+        background: none;
+        border: none;
+        color: var(--color-text-primary);
+        font-size: 1.8rem;
+        cursor: pointer;
+        padding: var(--spacing-xs);
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .mobile-header .logo-dashboard {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+    
     .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
+        width: 280px;
+        height: 100vh;
+        position: fixed;
+        left: -280px;
+        top: 0;
+        transition: left 0.3s ease;
+        z-index: 100;
     }
     
-    .sidebar.mobile-hidden {
+    .sidebar.mobile-visible {
+        left: 0;
+    }
+    
+    .sidebar-header {
         display: none;
-    }
-    
-    .mobile-menu-toggle {
-        display: block;
     }
     
     .main-content {
         margin-left: 0;
+        padding: var(--spacing-md);
+        padding-top: calc(var(--spacing-md) + 60px);
     }
     
     .section-header {

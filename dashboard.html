@@ -8,11 +8,19 @@
 </head>
 <body class="dashboard-page">
     <div class="dashboard-container">
+        <!-- Мобильный хедер -->
+        <div class="mobile-header">
+            <h2 class="logo-dashboard">DARKTRACE</h2>
+            <button class="mobile-menu-toggle" id="menuToggle">☰</button>
+        </div>
+        
+        <!-- Оверлей для мобильного меню -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+        
         <!-- Навигационная панель -->
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h2 class="logo-dashboard">DARKTRACE</h2>
-                <button class="mobile-menu-toggle" id="menuToggle">☰</button>
             </div>
             
             <ul class="nav-menu">
@@ -265,7 +273,7 @@
                     <div class="map-container">
                         <div class="map-controls">
                             <div class="time-filter">
-                                <label for="timeFilter">Фильтр по времени:</label>
+                                <label for="timeFilter">Фильтр по времени</label>
                                 <select id="timeFilter" class="filter-select">
                                     <option value="">Выберите временной отрезок</option>
                                     <option value="16-17">16:00-17:00</option>
